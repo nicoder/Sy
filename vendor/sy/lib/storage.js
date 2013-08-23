@@ -1,0 +1,1 @@
+//by default will use the queue interface, and only if dev wants persistent data he will request other storage interfaces
