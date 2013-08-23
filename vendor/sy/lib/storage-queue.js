@@ -1,4 +1,4 @@
-namespace('Sy.Lib.StorageAdapter');
+namespace('Sy.Lib.Storage');
 
 /**
  * This is not a real adapter as it's a temp storage
@@ -6,9 +6,9 @@ namespace('Sy.Lib.StorageAdapter');
  * When you make actions in a storage object, it's written here until you flush the storage
  * then the data here will be sent to the real adapter and persist changes
  */
-Sy.Lib.StorageAdapter.Queue = function () {};
+Sy.Lib.StorageQueue = function () {};
 
-Sy.Lib.StorageAdapter.Queue.prototype = Object.create(Object.prototype, {
+Sy.Lib.StorageQueue.prototype = Object.create(Object.prototype, {
 
     pending: {
         value: {

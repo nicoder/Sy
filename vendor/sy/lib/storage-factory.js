@@ -19,7 +19,7 @@ Sy.Lib.StorageFactory.prototype = Object.create(Object.prototype, {
         value: function (adapter) {
 
             var storage = new Sy.Lib.Storage(),
-                queue = new Sy.Lib.StorageAdapter.Queue(),
+                queue = new Sy.Lib.StorageQueue(),
                 engine = null;
 
             if (adapter !== undefined) {
