@@ -24,7 +24,7 @@ Sy.Lib.StorageFactory.prototype = Object.create(Object.prototype, {
 
             if (adapter !== undefined) {
 
-                if (exist(this.adapters[adapter])) {
+                if (this.adapters[adapter]) {
 
                     engine = new this.adapters[adapter]();
 

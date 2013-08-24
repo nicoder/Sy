@@ -1,3 +1,6 @@
 Sy.service.get('core::config').set({
-    env: 'dev'
+    env: 'dev',
+    server: {
+        api: 'path/to/api/'
+    }
 });
