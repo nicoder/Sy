@@ -10,7 +10,7 @@ Sy.Lib.REST.prototype = Object.create(Object.prototype, {
 
     httpCodes: {
         value: {},
-        writable: false,
+        writable: true,
         configurable: true
     },
 
@@ -26,7 +26,11 @@ Sy.Lib.REST.prototype = Object.create(Object.prototype, {
         *           headerName: 'header value'
         *       },
         *       url: 'url/to/request',
-        *       callback: {
+        *       success: {
+        *           fn: 'function to call',
+        *           context: 'context object to apply on the function'
+        *       },
+        *       error: {
         *           fn: 'function to call',
         *           context: 'context object to apply on the function'
         *       },
@@ -74,8 +78,7 @@ Sy.Lib.REST.prototype = Object.create(Object.prototype, {
                                 t.readyState === 4 &&
                                 (
                                     (
-                                        options.method === 'POST' &&
-                                        options.data._method === 'DELETE' &&
+                                        options.method === 'DELETE' &&
                                         t.status === httpCode.code.clientError.GONE
                                     ) ||
                                     httpCode.isSuccess(t.status) ||
@@ -87,15 +90,7 @@ Sy.Lib.REST.prototype = Object.create(Object.prototype, {
 
                                     resp = JSON.parse(t.response);
 
-                                    if (resp.status == 'successful') {
-
-                                        options.success.fn.call((options.success.context || window), resp);
-
-                                    } else {
-
-                                        throw new Error(resp.message);
-
-                                    }
+                                    options.success.fn.call((options.success.context || window), resp);
 
                                 } catch(error) {
 
@@ -115,20 +110,15 @@ Sy.Lib.REST.prototype = Object.create(Object.prototype, {
 
                                 switch (httpCode.reverse(t.status)) {
                                     case 'UNAUTHORIZED':
-                                        m.publish('notif.error', ['Sync: Invalid Credentials']);
-                                        break;
+                                        throw 'Invalid Credentials';
                                     case 'PAYMENT_REQUIRED':
-                                        m.publish('notif.error', ['Sync: Plan expired']);
-                                        break;
+                                        throw 'Plan expired';
                                     case 'NOT_FOUND':
-                                        m.publish('notif.error', ['Sync: Device not found']);
-                                        break;
+                                        throw 'Entity not found';
                                     case 'FORBIDDEN':
-                                        m.publish('notif.error', ['Sync: Unauthorized request']);
-                                        break;
+                                        throw 'Unauthorized request';
                                     default:
-                                        m.publish('notif.error', ['Sync: An unknown error occured']);
-                                        break;
+                                        throw 'An unknown error occured';
                                 }
 
                             }

@@ -6,7 +6,7 @@ Sy.Configurator.prototype = Object.create(Object.prototype, {
 
     config: {
         value: {},
-        writable: false,
+        writable: true,
         configurable: true
     },
 

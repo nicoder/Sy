@@ -11,19 +11,19 @@ Sy.Lib.Storage.prototype = Object.create(Object.prototype, {
 
     name: {
         value: '',
-        writable: false,
+        writable: true,
         configurable: true
     },
 
     queue: {
         value: null,
-        writable: false,
+        writable: true,
         configurable: false
     },
 
     engine: {
         value: null,
-        writable: false,
+        writable: true,
         configurable: true
     },
 
