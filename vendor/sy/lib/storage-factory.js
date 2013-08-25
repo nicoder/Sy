@@ -7,7 +7,7 @@ Sy.Lib.StorageFactory.prototype = Object.create(Object.prototype, {
     adapters: {
         value: {
             // indexeddb: Sy.Lib.StorageAdapter.IndexedDB,
-            // localstorage: Sy.Lib.StorageAdapter.LocalStorage,
+            localstorage: Sy.Lib.StorageAdapter.LocalStorage,
             server: Sy.Lib.StorageAdapter.Server
             // sessionstorage: Sy.Lib.StorageAdapter.SessionStorage
         },
