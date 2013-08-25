@@ -6,8 +6,15 @@ Sy.service.set('core::generator::uuid', function () {
     return new Sy.Lib.Generator.UUID();
 });
 
+Sy.service.set('core::mediator', function () {
+    var m = new Sy.Lib.Mediator();
+    m.setGenerator(Sy.service.get('core::generator::uuid'));
+
+    return m;
+});
+
 Sy.service.set('core::server::codes', function () {
-    return Sy.Lib.HttpCode;
+    return new Sy.Lib.HttpCode();
 });
 
 Sy.service.set('core::server::rest', function () {
@@ -23,5 +30,11 @@ Sy.service.set('core::config', function () {
 });
 
 Sy.service.set('core::storage::factory', function () {
-    return new Sy.Lib.StorageFactory();
+    var factory =  new Sy.Lib.StorageFactory();
+
+    factory.setConfig(Sy.service.get('core::config'));
+    factory.setRest(Sy.service.get('core::server::rest'));
+    factory.setMediator(Sy.service.get('core::mediator'));
+
+    return factory;
 });
