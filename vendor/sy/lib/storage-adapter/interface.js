@@ -1,8 +1,12 @@
-namespace('Sy.Lib.Storage');
+namespace('Sy.Lib.StorageAdapter');
 
-Sy.Lib.Storage.Interface = function () {};
+Sy.Lib.StorageAdapter.Interface = function (name) {
 
-Sy.Lib.Storage.Interface.prototype = Object.create(Object.prototype, {
+    this.name = name || {};
+
+};
+
+Sy.Lib.StorageAdapter.Interface.prototype = Object.create(Object.prototype, {
 
     config: {
         value: {},
@@ -10,12 +14,28 @@ Sy.Lib.Storage.Interface.prototype = Object.create(Object.prototype, {
         configurable: true
     },
 
+    /**
+     * Adapters need to be aware of the storage, so when the data is retrieved we can inject it in
+     * @type {Sy.Lib.Storage}
+     */
+    storage: {
+        value: {},
+        writable: true,
+        configurable: true
+    },
+
+    mediator: {
+        value: null,
+        writable: true,
+        configurable: true
+    },
+
     get: {
-        value: function (options) { return; }
+        value: function (options) { return this; }
     },
 
     getAll: {
-        value: function (options) { return []; }
+        value: function (options) { return this; }
     },
 
     create: {
@@ -27,14 +47,10 @@ Sy.Lib.Storage.Interface.prototype = Object.create(Object.prototype, {
     },
 
     find: {
-        value: function (options) { return []; }
-    },
-
-    remove: {
         value: function (options) { return this; }
     },
 
-    clear: {
+    remove: {
         value: function (options) { return this; }
     },
 
@@ -43,6 +59,26 @@ Sy.Lib.Storage.Interface.prototype = Object.create(Object.prototype, {
         value: function (object) {
 
             this.config = object;
+
+            return this;
+
+        }
+    },
+
+    setStorage: {
+        value: function (object) {
+
+            this.storage = object;
+
+            return this;
+
+        }
+    },
+
+    setMediator: {
+        value: function (object) {
+
+            this.mediator = object;
 
             return this;
 
