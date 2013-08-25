@@ -36,6 +36,22 @@ Sy.Entity.prototype = Object.create(Object.prototype, {
         }
     },
 
+    getRaw: {
+        value: function () {
+
+            var obj = {};
+
+            for (var p in this.properties) {
+                if (this.properties.hasOwnProperty(p)) {
+                    obj[p] = this.properties[p];
+                }
+            }
+
+            return obj;
+
+        }
+    },
+
     register: {
         value: function (key, type) {
 
