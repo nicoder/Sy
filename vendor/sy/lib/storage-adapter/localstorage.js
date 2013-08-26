@@ -30,6 +30,47 @@ Sy.Lib.StorageAdapter.LocalStorage.prototype = Object.create(Sy.Lib.StorageAdapt
         }
     },
 
+    getAll: {
+        value: function () {
+
+            var store = this.getStore(),
+                entities = [];
+
+            for (var k in store) {
+                if (store.hasOwnProperty(k)) {
+                    entities.push(store[k]);
+                }
+            }
+
+            setTimeout(
+                function (data, m, name) {
+                    m.publish('app::storage::' + name + '::entities', [data]);
+                },
+                0,
+                data,
+                this.mediator,
+                this.name
+            );
+
+            return this;
+
+        }
+    },
+
+    create: {
+        value: function (data) {
+
+            var store = this.getStore();
+
+            store[data.uuid] = data;
+
+            this.setStore(store);
+
+            return this;
+
+        }
+    },
+
     getStore: {
         value: function () {
 
@@ -37,6 +78,18 @@ Sy.Lib.StorageAdapter.LocalStorage.prototype = Object.create(Sy.Lib.StorageAdapt
                 store = JSON.parse(localStorage.getItem(name)) || {};
 
             return store;
+
+        }
+    },
+
+    setStore: {
+        value: function (store) {
+
+            var name = 'sy::storage::' + this.name;
+
+            localStorage.setItem(name, JSON.stringify(store));
+
+            return this;
 
         }
     }

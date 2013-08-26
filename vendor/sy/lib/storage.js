@@ -26,6 +26,7 @@ Sy.Lib.Storage.prototype = Object.create(Object.prototype, {
     create: {
         value: function (entity) {
 
+            this.queue.set('create', entity);
 
             return this;
         }
@@ -34,6 +35,7 @@ Sy.Lib.Storage.prototype = Object.create(Object.prototype, {
     update: {
         value: function (entity) {
 
+            this.queue.set('update', entity);
 
             return this;
         }
@@ -50,32 +52,66 @@ Sy.Lib.Storage.prototype = Object.create(Object.prototype, {
     remove: {
         value: function (entity) {
 
+            this.queue.set('remove', entity);
 
             return this;
         }
     },
 
-    clear: {
+    flush: {
         value: function () {
 
+            var self = this,
+                toCreate = this.queue.get('create'),
+                toUpdate = this.queue.get('update'),
+                toRemove = this.queue.get('remove');
+
+            toCreate.forEach(function (entity) {
+                self.engine.create(entity.getRaw());
+            });
+
+            toUpdate.forEach(function (entity) {
+                self.engine.update(entity.get('uuid'), entity.getRaw());
+            });
+
+            toRemove.forEach(function (entity) {
+                self.engine.remove(entity.get('uuid'));
+            });
 
             return this;
+
         }
     },
 
     setQueue: {
         value: function (object) {
+
             this.queue = object;
 
             return this;
+
         }
     },
 
     setEngine: {
         value: function (object) {
+
             this.engine = object;
 
             return this;
+
+        }
+    },
+
+    setName: {
+        value: function (name) {
+
+            this.name = name;
+
+            if (!this.engine.name) {
+                this.engine.name = name;
+            }
+
         }
     }
 
