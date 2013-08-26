@@ -2,7 +2,7 @@ namespace('Sy.Lib.StorageAdapter');
 
 Sy.Lib.StorageAdapter.Interface = function (name) {
 
-    this.name = name || {};
+    this.name = name || '';
 
     this.config = {};
     /**
