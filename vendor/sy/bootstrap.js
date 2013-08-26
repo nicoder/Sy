@@ -38,3 +38,11 @@ Sy.service.set('core::storage::factory', function () {
 
     return factory;
 });
+
+Sy.service.set('core::stack::factory', function () {
+    var factory = new Sy.StackFactory();
+
+    factory.setGenerator('uuid', Sy.service.get('core::generator::uuid'));
+
+    return factory;
+});
