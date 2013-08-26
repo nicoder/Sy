@@ -1,14 +1,12 @@
 namespace('Sy');
 
-Sy.Configurator = function () {};
+Sy.Configurator = function () {
+
+    this.config = {};
+
+};
 
 Sy.Configurator.prototype = Object.create(Object.prototype, {
-
-    config: {
-        value: {},
-        writable: true,
-        configurable: true
-    },
 
     set: {
         value: function (options) {

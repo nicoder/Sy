@@ -2,21 +2,12 @@ namespace('Sy.Lib');
 
 Sy.Lib.Mediator = function () {
 
+    this.channels = {};
+    this.generator = null
+
 };
 
 Sy.Lib.Mediator.prototype = Object.create(Object.prototype, {
-
-    channels: {
-        value: {},
-        writable: false,
-        configurable: true
-    },
-
-    generator: {
-        value: null,
-        writable: true,
-        configurable: true
-    },
 
     /**
         * Add a subscriber to a channel
@@ -166,6 +157,8 @@ Sy.Lib.MediatorChannel = function (name){
 
     this.name = name || '';
     this.stopped = false;
+    this.subscribers = {};
+    this.generator = null;
 
 };
 
@@ -174,18 +167,6 @@ Sy.Lib.MediatorChannel = function (name){
 */
 
 Sy.Lib.MediatorChannel.prototype = Object.create(Object.prototype, {
-
-    subscribers: {
-        value: {},
-        writable: false,
-        configurable: true
-    },
-
-    generator: {
-        value: null,
-        writable: true,
-        configurable: true
-    },
 
     /**
         * Add a subscriber to the channel

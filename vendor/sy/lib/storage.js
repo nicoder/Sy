@@ -4,28 +4,12 @@ namespace('Sy.Lib');
 Sy.Lib.Storage = function (name) {
 
     this.name = name || '';
+    this.queue = null;
+    this.engine = null;
 
 };
 
 Sy.Lib.Storage.prototype = Object.create(Object.prototype, {
-
-    name: {
-        value: '',
-        writable: true,
-        configurable: true
-    },
-
-    queue: {
-        value: null,
-        writable: true,
-        configurable: false
-    },
-
-    engine: {
-        value: null,
-        writable: true,
-        configurable: true
-    },
 
     get: {
         value: function (id) {

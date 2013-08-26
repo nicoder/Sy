@@ -1,22 +1,34 @@
 namespace('Sy');
 
-Sy.Entity = function () {};
+Sy.Entity = function (properties) {
+
+    var data = properties || {};
+
+    this.properties = {
+        uuid: ''
+    };
+
+};
 
 Sy.Entity.prototype = Object.create(Object.prototype, {
-
-    properties: {
-        value: {
-            uuid: ''
-        },
-        writable: false,
-        configurable: true
-    },
 
     set: {
         value: function (key, value) {
 
-            if (this.properties[key] !== undefined) {
-                this.properties[key] = value;
+            if (typeof key === 'object') {
+
+                for (var k in key) {
+                    if (this.properties.hasOwnProperty(k)) {
+                        this.properties[k] = key[k];
+                    }
+                }
+
+            } else {
+
+                if (this.properties[key] !== undefined) {
+                    this.properties[key] = value;
+                }
+
             }
 
             return this;
@@ -55,7 +67,7 @@ Sy.Entity.prototype = Object.create(Object.prototype, {
     register: {
         value: function (key, type) {
 
-            if (!this.properties.hasOwnProperty(key)) {
+            if (!this.properties.hasOwnProperty(key) && key !== 'uuid' && key !== 'id') {
                 this.properties[key] = '';
             }
 

@@ -4,31 +4,17 @@ Sy.Lib.StorageAdapter.Interface = function (name) {
 
     this.name = name || {};
 
-};
-
-Sy.Lib.StorageAdapter.Interface.prototype = Object.create(Object.prototype, {
-
-    config: {
-        value: {},
-        writable: false,
-        configurable: true
-    },
-
+    this.config = {};
     /**
      * Adapters need to be aware of the storage, so when the data is retrieved we can inject it in
      * @type {Sy.Lib.Storage}
      */
-    storage: {
-        value: {},
-        writable: true,
-        configurable: true
-    },
+    this.storage = {};
+    this.mediator = {};
 
-    mediator: {
-        value: null,
-        writable: true,
-        configurable: true
-    },
+};
+
+Sy.Lib.StorageAdapter.Interface.prototype = Object.create(Object.prototype, {
 
     get: {
         value: function (options) { return this; }

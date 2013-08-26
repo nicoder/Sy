@@ -1,37 +1,20 @@
 namespace('Sy.Lib');
 
-Sy.Lib.StorageFactory = function () {};
+Sy.Lib.StorageFactory = function () {
+
+    this.adapters = {
+        // indexeddb: Sy.Lib.StorageAdapter.IndexedDB,
+        localstorage: Sy.Lib.StorageAdapter.LocalStorage,
+        server: Sy.Lib.StorageAdapter.Server
+        // sessionstorage: Sy.Lib.StorageAdapter.SessionStorage
+    };
+    this.config = null;
+    this.rest = null;
+    this.mediator = null;
+
+};
 
 Sy.Lib.StorageFactory.prototype = Object.create(Object.prototype, {
-
-    adapters: {
-        value: {
-            // indexeddb: Sy.Lib.StorageAdapter.IndexedDB,
-            localstorage: Sy.Lib.StorageAdapter.LocalStorage,
-            server: Sy.Lib.StorageAdapter.Server
-            // sessionstorage: Sy.Lib.StorageAdapter.SessionStorage
-        },
-        writable: false,
-        configurable: false
-    },
-
-    config: {
-        value: null,
-        writable: true,
-        configurable: true
-    },
-
-    rest: {
-        value: null,
-        writable: true,
-        configurable: true
-    },
-
-    mediator: {
-        value: null,
-        writable: true,
-        configurable: true
-    },
 
     get: {
         value: function (name, adapter) {

@@ -4,15 +4,13 @@ namespace('Sy.Lib');
     * Make easy RESTful request to the server
 */
 
-Sy.Lib.REST = function () {};
+Sy.Lib.REST = function () {
+
+    this.httpCodes = {};
+
+};
 
 Sy.Lib.REST.prototype = Object.create(Object.prototype, {
-
-    httpCodes: {
-        value: {},
-        writable: true,
-        configurable: true
-    },
 
     /**
         * Make a request to the server with as options an object as follows

@@ -4,21 +4,12 @@ Sy.Lib.StorageAdapter.Server = function (name) {
 
     Sy.Lib.StorageAdapter.Interface.call(this, name);
 
+    this.rest = null;
+    this.api = {};
+
 };
 
 Sy.Lib.StorageAdapter.Server.prototype = Object.create(Sy.Lib.StorageAdapter.Interface.prototype, {
-
-    rest: {
-        value: null,
-        writable: true,
-        configurable: true
-    },
-
-    api: {
-        value: {},
-        writable: true,
-        configurable: true
-    },
 
     get: {
         value: function (identifier) {

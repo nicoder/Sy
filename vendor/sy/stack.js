@@ -3,33 +3,41 @@ namespace('Sy');
 Sy.Stack = function (name) {
 
     this.name = name || '';
+    this.items = {};
+    this.length = 0;
+    this.generator = {};
+    this.storage = {};
 
 };
 
 Sy.Stack.prototype = Object.create(Object.prototype, {
 
-    items: {
-        value: {},
-        writable: false,
-        configurable: true
+    get: {
+        value: function (uuid) {
+
+            if (this.items[uuid] !== undefined) {
+                return this.items[uuid];
+            }
+
+            throw 'Entity not found';
+
+        }
     },
 
-    length: {
-        value: 0,
-        writable: true,
-        configurable: true
-    },
+    getAll: {
+        value: function () {
 
-    generator: {
-        value: {},
-        writable: true,
-        configurable: true
-    },
+            var entities = [];
 
-    storage: {
-        value: {},
-        writable: true,
-        configurable: true
+            for (var uuid in this.items) {
+                if (this.items.hasOwnProperty(uuid)) {
+                    entities.push(this.items[uuid]);
+                }
+            }
+
+            return entities;
+
+        }
     },
 
     persist: {
@@ -85,34 +93,6 @@ Sy.Stack.prototype = Object.create(Object.prototype, {
         }
     },
 
-    get: {
-        value: function (uuid) {
-
-            if (this.items[uuid] !== undefined) {
-                return this.items[uuid];
-            }
-
-            throw 'Entity not found';
-
-        }
-    },
-
-    getAll: {
-        value: function () {
-
-            var entities = [];
-
-            for (var uuid in this.items) {
-                if (this.items.hasOwnProperty(uuid)) {
-                    entities.push(this.items[uuid]);
-                }
-            }
-
-            return entities;
-
-        }
-    },
-
     contains: {
         value: function (entity) {
 
@@ -125,6 +105,20 @@ Sy.Stack.prototype = Object.create(Object.prototype, {
             }
 
             return false;
+
+        }
+    },
+
+    flush: {
+        value: function () {
+
+            if (this.storage) {
+
+
+
+            }
+
+            return this;
 
         }
     },

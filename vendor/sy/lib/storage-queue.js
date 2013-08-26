@@ -6,19 +6,17 @@ namespace('Sy.Lib.Storage');
  * When you make actions in a storage object, it's written here until you flush the storage
  * then the data here will be sent to the real adapter and persist changes
  */
-Sy.Lib.StorageQueue = function () {};
+Sy.Lib.StorageQueue = function () {
+
+    this. pending = {
+        create: [],
+        update: [],
+        remove: []
+    };
+
+};
 
 Sy.Lib.StorageQueue.prototype = Object.create(Object.prototype, {
-
-    pending: {
-        value: {
-            create: [],
-            update: [],
-            remove: []
-        },
-        writable: false,
-        configurable: true
-    },
 
     set: {
         value: function (action, data) {

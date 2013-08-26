@@ -3,22 +3,12 @@ namespace('Sy');
 Sy.Service = function (name) {
 
     this.name = name || '';
+    this.services = {};
+    this.creators = {};
 
 };
 
 Sy.Service.prototype = Object.create(Object.prototype, {
-
-    services: {
-        value: {},
-        writable: false,
-        configurable: true
-    },
-
-    creators: {
-        value: {},
-        writable: false,
-        configurable: true
-    },
 
     get: {
 
