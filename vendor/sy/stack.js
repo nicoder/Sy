@@ -5,8 +5,8 @@ Sy.Stack = function (name) {
     this.name = name || '';
     this.items = {};
     this.length = 0;
-    this.generator = {};
-    this.storage = {};
+    this.generator = null;
+    this.storage = null;
 
 };
 
@@ -48,9 +48,19 @@ Sy.Stack.prototype = Object.create(Object.prototype, {
             }
 
             if (!this.contains(entity)) {
+
                 entity.set('uuid', this.generator.generate());
 
                 this.length++;
+
+                if (this.storage) {
+                    this.storage.create(entity);
+                }
+
+            } else if (this.storage) {
+
+                this.storage.update(entity);
+
             }
 
             this.items[entity.get('uuid')] = entity;
@@ -71,6 +81,12 @@ Sy.Stack.prototype = Object.create(Object.prototype, {
                 delete this.items[entity.get('uuid')];
 
                 this.length--;
+
+                if (this.storage) {
+
+                    this.storage.remove(entity);
+
+                }
             }
 
             return this;
@@ -114,7 +130,7 @@ Sy.Stack.prototype = Object.create(Object.prototype, {
 
             if (this.storage) {
 
-
+                this.storage.flush();
 
             }
 
@@ -145,6 +161,12 @@ Sy.Stack.prototype = Object.create(Object.prototype, {
             }
 
             this.storage = object;
+
+            if (!this.storage.name) {
+
+                this.storage.setName(this.name);
+
+            }
 
             return this;
 
