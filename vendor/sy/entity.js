@@ -1,8 +1,6 @@
 namespace('Sy');
 
-Sy.Entity = function (properties) {
-
-    var data = properties || {};
+Sy.Entity = function () {
 
     this.properties = {
         uuid: ''
@@ -13,7 +11,7 @@ Sy.Entity = function (properties) {
 Sy.Entity.prototype = Object.create(Object.prototype, {
 
     set: {
-        value: function (key, value) {
+        value: function (key, value, silent /*boolean*/) {
 
             if (typeof key === 'object') {
 
