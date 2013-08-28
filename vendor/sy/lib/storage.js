@@ -14,11 +14,19 @@ Sy.Lib.Storage.prototype = Object.create(Object.prototype, {
     get: {
         value: function (id) {
 
+            this.engine.get(id);
+
+            return this;
+
         }
     },
 
     getAll: {
         value: function () {
+
+            this.engine.getAll();
+
+            return this;
 
         }
     },
@@ -26,7 +34,9 @@ Sy.Lib.Storage.prototype = Object.create(Object.prototype, {
     create: {
         value: function (entity) {
 
-            this.queue.set('create', entity);
+            if (this.checkValidity(entity)) {
+                this.queue.set('create', entity);
+            }
 
             return this;
         }
@@ -35,24 +45,20 @@ Sy.Lib.Storage.prototype = Object.create(Object.prototype, {
     update: {
         value: function (entity) {
 
-            this.queue.set('update', entity);
+            if (this.checkValidity(entity)) {
+                this.queue.set('update', entity);
+            }
 
             return this;
-        }
-    },
-
-    find: {
-        value: function (options) {
-
-
-            return [];
         }
     },
 
     remove: {
         value: function (entity) {
 
-            this.queue.set('remove', entity);
+            if (this.checkValidity(entity)) {
+                this.queue.set('remove', entity);
+            }
 
             return this;
         }
@@ -79,6 +85,18 @@ Sy.Lib.Storage.prototype = Object.create(Object.prototype, {
             });
 
             return this;
+
+        }
+    },
+
+    checkValidity: {
+        value: function (data) {
+
+            if (data instanceof Sy.Entity) {
+                return true;
+            }
+
+            return false;
 
         }
     },
