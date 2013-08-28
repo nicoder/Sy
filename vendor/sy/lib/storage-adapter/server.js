@@ -16,6 +16,7 @@ Sy.Lib.StorageAdapter.Server.prototype = Object.create(Sy.Lib.StorageAdapter.Int
 
             this.rest.get({
                 url: this.api.url + this.name + '/' + identifier,
+                headers: this.api.headers,
                 success: {
                     fn: function (resp) {
                         this.mediator.publish('app::storage::' + this.name + '::entity', [resp.entity]);
@@ -34,6 +35,7 @@ Sy.Lib.StorageAdapter.Server.prototype = Object.create(Sy.Lib.StorageAdapter.Int
 
             this.rest.get({
                 url: this.api.url + this.name,
+                headers: this.api.headers,
                 success: {
                     fn: function (resp) {
                         this.mediator.publish('app::storage::' + this.name + '::entitites', [resp.entitites]);
@@ -52,6 +54,7 @@ Sy.Lib.StorageAdapter.Server.prototype = Object.create(Sy.Lib.StorageAdapter.Int
 
             this.rest.post({
                 url: this.api.url + this.name,
+                headers: this.api.headers,
                 data: data,
                 success: {
                     fn: function (resp) {
@@ -71,28 +74,11 @@ Sy.Lib.StorageAdapter.Server.prototype = Object.create(Sy.Lib.StorageAdapter.Int
 
             this.rest.put({
                 url: this.api.url + this.name + '/' + identifier,
+                headers: this.api.headers,
                 data: data,
                 success: {
                     fn: function (resp) {
                         this.mediator.publish('app::storage::' + this.name + '::entity::update', [resp.entity]);
-                    },
-                    context: this
-                }
-            });
-
-            return this;
-
-        }
-    },
-
-    find: {
-        value: function (term) {
-
-            this.rest.get({
-                url: this.api.url + this.name + '/s/' + term,
-                success: {
-                    fn: function (resp) {
-                        this.mediator.publish('app::storage::' + this.name + '::search', [resp.entitites]);
                     },
                     context: this
                 }
@@ -108,6 +94,7 @@ Sy.Lib.StorageAdapter.Server.prototype = Object.create(Sy.Lib.StorageAdapter.Int
 
             this.rest.remove({
                 url: this.api.url + this.name + '/' + identifier,
+                headers: this.api.headers,
                 success: {
                     fn: function (resp) {
                         this.mediator.publish('app::storage::' + this.name + '::remove', [identifier]);
