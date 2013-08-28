@@ -3,6 +3,7 @@ namespace('Sy');
 Sy.StackFactory = function () {
 
     this.generators = {};
+    this.mediator = null;
 
 };
 
@@ -19,6 +20,9 @@ Sy.StackFactory.prototype = Object.create(Object.prototype, {
             }
 
             stack.setGenerator(this.generators[gen]);
+            stack.setMediator(this.mediator);
+
+            stack.initListeners();
 
             return stack;
 
@@ -37,6 +41,16 @@ Sy.StackFactory.prototype = Object.create(Object.prototype, {
             }
 
             this.generators[name] = service;
+
+            return this;
+
+        }
+    },
+
+    setMediator: {
+        value: function (object) {
+
+            this.mediator = object;
 
             return this;
 

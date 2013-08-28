@@ -43,6 +43,7 @@ Sy.service.set('core::stack::factory', function () {
     var factory = new Sy.StackFactory();
 
     factory.setGenerator('uuid', Sy.service.get('core::generator::uuid'));
+    factory.setMediator(Sy.service.get('core::mediator'));
 
     return factory;
 });

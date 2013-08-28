@@ -2,11 +2,19 @@ namespace('Sy');
 
 Sy.Stack = function (name) {
 
-    this.name = name || '';
+    this.name = name.toLowerCase() || '';
     this.items = {};
     this.length = 0;
     this.generator = null;
     this.storage = null;
+    this.mediator = null;
+    this.listeners = {
+        get: null,
+        getAll: null,
+        create: null,
+        update: null,
+        remove: null
+    };
 
 };
 
@@ -139,6 +147,55 @@ Sy.Stack.prototype = Object.create(Object.prototype, {
         }
     },
 
+    retrieve: {
+        value: function (identifier) {
+
+            if (identifier !== undefined && this.storage) {
+                this.storage.get(identifier);
+            } else if (this.storage) {
+                this.storage.getAll();
+            }
+
+            return this;
+
+        }
+    },
+
+    /**
+     * Transform raw data into an entity and add it to the stack
+     * @type {Sy.Stack}
+     */
+    create: {
+        value: function (rawData) {
+
+            var entity = this.buildEntity(rawData);
+
+            this.items[entity.get('uuid')] = entity;
+
+            this.length++;
+
+            return this;
+
+        }
+    },
+
+    buildEntity: {
+        value: function (rawData) {
+
+            var name = this.name.charAt(0).toUpperCase() + this.name.substr(1).toLowerCase(),
+                entity = null;
+
+            if (App.Entity[name] === undefined) {
+                throw 'Undefined entity';
+            }
+
+            entity = new App.Entity[name](rawData);
+
+            return entity;
+
+        }
+    },
+
     setGenerator: {
         value: function (object) {
 
@@ -172,5 +229,105 @@ Sy.Stack.prototype = Object.create(Object.prototype, {
 
         }
     },
+
+    setMediator: {
+        value: function (object) {
+
+            this.mediator = object;
+
+            return this;
+
+        }
+    },
+
+    initListeners: {
+        value: function () {
+
+            this.listeners.get = this.mediator.subscribe({
+                channel: 'app::storage::' + this.name + '::entity',
+                fn: function (rawData) {
+
+                    this.create(rawData);
+
+                    this.mediator.publish('app::stack::' + this.name + '::entity', [this.items[rawData.uuid]]);
+
+                },
+                context: this
+            });
+
+            this.listeners.getAll = this.mediator.subscribe({
+                channel: 'app::storage::' + this.name + '::entities',
+                fn: function (entities) {
+
+                    var self = this;
+
+                    entities.forEach(function (rawData) {
+                        self.create(rawData);
+                    });
+
+                    this.mediator.publish('app::stack::' + this.name + '::entities', [this.getAll()]);
+
+                },
+                context: this
+            });
+
+            this.listeners.create = this.mediator.subscribe({
+                channel: 'app::storage::' + this.name + '::entity::create',
+                fn: function (rawData) {
+
+                    if (this.items[rawData.uuid] !== undefined) {
+
+                        for (var p in rawData) {
+                            this.items[rawData.uuid].set(p, rawData[p], true);
+                        }
+
+                    } else {
+
+                        this.create(rawData);
+
+                    }
+
+                    this.mediator.publish('app::stack::' + this.name + '::entity::create', [this.items[rawData.uuid]]);
+
+                },
+                context: this
+            });
+
+            this.listeners.update = this.mediator.subscribe({
+                channel: 'app::storage::' + this.name + '::entity::update',
+                fn: function (rawData) {
+
+                    if (this.items[rawData.uuid] !== undefined) {
+
+                        for (var p in rawData) {
+                            this.items[rawData.uuid].set(p, rawData[p], true);
+                        }
+
+                        this.mediator.publish('app::stack::' + this.name + '::entity::update', [this.items[rawData.uuid]]);
+
+                    }
+
+                },
+                context: this
+            });
+
+            this.listeners.remove = this.mediator.subscribe({
+                channel: function (rawData) {
+
+                    if (this.items[rawData.uuid] !== undefined) {
+
+                        this.mediator.publish('app::stack::' + this.name + '::entity::delete', [this.items[rawData.uuid]]);
+
+                        delete this.items[rawData.uuid];
+                        this.length--;
+
+                    }
+
+                },
+                context: this
+            });
+
+        }
+    }
 
 });
