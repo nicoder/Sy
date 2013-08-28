@@ -5,8 +5,8 @@ Sy.Lib.StorageFactory = function () {
     this.adapters = {
         // indexeddb: Sy.Lib.StorageAdapter.IndexedDB,
         localstorage: Sy.Lib.StorageAdapter.LocalStorage,
-        server: Sy.Lib.StorageAdapter.Server
-        // sessionstorage: Sy.Lib.StorageAdapter.SessionStorage
+        server: Sy.Lib.StorageAdapter.Server,
+        sessionstorage: Sy.Lib.StorageAdapter.SessionStorage
     };
     this.config = null;
     this.rest = null;
