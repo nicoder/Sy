@@ -32,10 +32,6 @@ Sy.Lib.StorageAdapter.Interface.prototype = Object.create(Object.prototype, {
         value: function (options) { return this; }
     },
 
-    find: {
-        value: function (options) { return this; }
-    },
-
     remove: {
         value: function (options) { return this; }
     },
