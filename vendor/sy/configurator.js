@@ -11,7 +11,7 @@ Sy.Configurator.prototype = Object.create(Object.prototype, {
     set: {
         value: function (options) {
 
-            this.config = options || {};
+            this.config = _.extend(this.config, options || {});
 
             return this;
 
