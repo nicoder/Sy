@@ -181,7 +181,7 @@ Sy.Lib.MediatorChannel.prototype = Object.create(Object.prototype, {
                 fn: fn,
                 context: context || window,
                 priority: priority || 1,
-                async: async || false
+                async: async || true
             };
 
             return guid;

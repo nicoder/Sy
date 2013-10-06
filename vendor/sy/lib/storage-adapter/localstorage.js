@@ -11,7 +11,7 @@ Sy.Lib.StorageAdapter.LocalStorage.prototype = Object.create(Sy.Lib.StorageAdapt
     getStore: {
         value: function () {
 
-            var name = 'sy::storage::' + this.name,
+            var name = 'app::storage::' + this.name,
                 store = JSON.parse(localStorage.getItem(name)) || {};
 
             return store;
@@ -22,7 +22,7 @@ Sy.Lib.StorageAdapter.LocalStorage.prototype = Object.create(Sy.Lib.StorageAdapt
     setStore: {
         value: function (store) {
 
-            var name = 'sy::storage::' + this.name;
+            var name = 'app::storage::' + this.name;
 
             localStorage.setItem(name, JSON.stringify(store));
 

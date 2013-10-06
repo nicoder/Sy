@@ -2,7 +2,9 @@ namespace('Sy.Lib.StorageAdapter');
 
 Sy.Lib.StorageAdapter.Interface = function (name) {
 
-    this.name = name || '';
+    this.name = '';
+    this.bundle = '';
+    this.entity = '';
 
     this.config = {};
     /**
@@ -11,6 +13,8 @@ Sy.Lib.StorageAdapter.Interface = function (name) {
      */
     this.storage = {};
     this.mediator = {};
+
+    this.setName(name);
 
 };
 
@@ -63,6 +67,24 @@ Sy.Lib.StorageAdapter.Interface.prototype = Object.create(Object.prototype, {
             this.mediator = object;
 
             return this;
+
+        }
+    },
+
+    setName: {
+        value: function (name) {
+
+            var name = name || '';
+
+            infos = name.split('::');
+
+            if (infos.length !== 2) {
+                throw new Error('Invalid stack name');
+            }
+
+            this.name = name.toLowerCase();
+            this.bundle = infos[0].charAt(0).toUpperCase() + infos[0].substr(1).toLowerCase();
+            this.entity = infos[1].charAt(0).toUpperCase() + infos[1].substr(1).toLowerCase();
 
         }
     }

@@ -10,10 +10,10 @@ Sy.StackFactory = function () {
 Sy.StackFactory.prototype = Object.create(Object.prototype, {
 
     get: {
-        value: function (entityName, generator) {
+        value: function (name, generator) {
 
             var gen = generator || 'uuid',
-                stack = new Sy.Stack(entityName);
+                stack = new Sy.Stack(name);
 
             if (this.generators[gen] === undefined) {
                 throw 'Unknown generator';

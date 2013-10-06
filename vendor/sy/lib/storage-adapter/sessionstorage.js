@@ -11,7 +11,7 @@ Sy.Lib.StorageAdapter.SessionStorage.prototype = Object.create(Sy.Lib.StorageAda
     getStore: {
         value: function () {
 
-            var name = 'sy::storage::' + this.name,
+            var name = 'app::storage::' + this.name,
                 store = JSON.parse(sessionStorage.getItem(name)) || {};
 
             return store;
@@ -22,7 +22,7 @@ Sy.Lib.StorageAdapter.SessionStorage.prototype = Object.create(Sy.Lib.StorageAda
     setStore: {
         value: function (store) {
 
-            var name = 'sy::storage::' + this.name;
+            var name = 'app::storage::' + this.name;
 
             sessionStorage.setItem(name, JSON.stringify(store));
 

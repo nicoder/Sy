@@ -2,8 +2,8 @@ namespace('App');
 
 var stackFact = Sy.service.get('core::stack::factory'),
     storeFact = Sy.service.get('core::storage::factory'),
-    myStack = stackFact.get('todo'),
-    e = new App.Entity.Todo({
+    myStack = stackFact.get('sy::todo'),
+    e = new App.Bundle.Sy.Entity.Todo({
         name: 'foo'
     });
 

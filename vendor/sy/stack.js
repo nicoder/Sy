@@ -2,7 +2,9 @@ namespace('Sy');
 
 Sy.Stack = function (name) {
 
-    this.name = name.toLowerCase() || '';
+    this.name = '';
+    this.bundle = '';
+    this.entity = '';
     this.items = {};
     this.length = 0;
     this.generator = null;
@@ -15,6 +17,10 @@ Sy.Stack = function (name) {
         update: null,
         remove: null
     };
+
+    this.setName(name);
+
+    this.constructor = App.Bundle[this.bundle].Entity[this.entity];
 
 };
 
@@ -182,14 +188,13 @@ Sy.Stack.prototype = Object.create(Object.prototype, {
     buildEntity: {
         value: function (rawData) {
 
-            var name = this.name.charAt(0).toUpperCase() + this.name.substr(1).toLowerCase(),
-                entity = null;
+            var entity = null;
 
-            if (App.Entity[name] === undefined) {
-                throw 'Undefined entity';
+            entity = new this.constructor(rawData);
+
+            if (!(entity instanceof Sy.Entity)) {
+                throw 'Invalid entity';
             }
-
-            entity = new App.Entity[name](rawData);
 
             return entity;
 
@@ -234,6 +239,16 @@ Sy.Stack.prototype = Object.create(Object.prototype, {
         value: function (object) {
 
             this.mediator = object;
+
+            return this;
+
+        }
+    },
+
+    setConstructor: {
+        value: function (constructor) {
+
+            this.constructor = constructor;
 
             return this;
 
@@ -326,6 +341,22 @@ Sy.Stack.prototype = Object.create(Object.prototype, {
                 },
                 context: this
             });
+
+        }
+    },
+
+    setName: {
+        value: function (name) {
+
+            infos = name.split('::');
+
+            if (infos.length !== 2) {
+                throw new Error('Invalid stack name');
+            }
+
+            this.name = name.toLowerCase();
+            this.bundle = infos[0].charAt(0).toUpperCase() + infos[0].substr(1).toLowerCase();
+            this.entity = infos[1].charAt(0).toUpperCase() + infos[1].substr(1).toLowerCase();
 
         }
     }

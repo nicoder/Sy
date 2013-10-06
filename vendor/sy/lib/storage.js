@@ -3,9 +3,13 @@ namespace('Sy.Lib');
 
 Sy.Lib.Storage = function (name) {
 
-    this.name = name || '';
+    this.name = '';
+    this.bundle = '';
+    this.entity = '';
     this.queue = null;
     this.engine = null;
+
+    this.setName(name);
 
 };
 
@@ -124,10 +128,20 @@ Sy.Lib.Storage.prototype = Object.create(Object.prototype, {
     setName: {
         value: function (name) {
 
-            this.name = name;
+            var name = name || '';
 
-            if (!this.engine.name) {
-                this.engine.name = name;
+            infos = name.split('::');
+
+            if (infos.length !== 2) {
+                throw new Error('Invalid storage name');
+            }
+
+            this.name = name.toLowerCase();
+            this.bundle = infos[0].charAt(0).toUpperCase() + infos[0].substr(1).toLowerCase();
+            this.entity = infos[1].charAt(0).toUpperCase() + infos[1].substr(1).toLowerCase();
+
+            if (this.engine) {
+                this.engine.setName(name);
             }
 
         }
